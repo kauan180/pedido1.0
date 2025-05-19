@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nicole, quer namorar comigo?</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #1e1e2f, #2c2c3e);
+      color: white;
+      overflow: hidden;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: 20px;
+      position: relative;
+    }
+
+    .screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 30px;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .screen.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .screen h1 {
+      font-size: 1.8em;
+      margin-bottom: 20px;
+    }
+
+    .heart {
+      font-size: 3em;
+      margin-bottom: 20px;
+      animation: pulse 1.2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
+    .btn {
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      padding: 15px 30px;
+      font-size: 1em;
+      margin: 10px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #ff85c1;
+    }
+
+    .response {
+      margin-top: 20px;
+      font-size: 1.2em;
+      animation: fadeIn 1s forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .background-hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .heart-float {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background: pink;
+      clip-path: polygon(50% 0%, 61% 12%, 75% 25%, 85% 35%, 92% 50%, 95% 65%, 92% 80%, 85% 90%, 75% 95%, 50% 100%, 25% 95%, 15% 90%, 8% 80%, 5% 65%, 8% 50%, 15% 35%, 25% 25%, 39% 12%);
+      animation: float 8s linear infinite;
+      opacity: 0.6;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+      50% { opacity: 0.8; }
+      100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <audio autoplay loop>
+    <source src="https://cdn.pixabay.com/download/audio/2023/01/24/audio_8e392cfefe.mp3?filename=romantic-music-145128.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="background-hearts" id="heart-container"></div>
+
+  <div class="container">
+    <div class="screen active" id="screen1">
+      <div class="heart">💖</div>
+      <h1>Oi meu amor, lembra da primeira vez que a gente se olhou diferente?</h1>
+      <button class="btn" onclick="nextScreen(2)">Sim ❤️</button>
+    </div>
+
+    <div class="screen" id="screen2">
+      <div class="heart">💞</div>
+      <h1>Cada momento com você é único: nossos risos, nossas conversas, nossos silêncios...</h1>
+      <button class="btn" onclick="nextScreen(3)">Continua 💬</button>
+    </div>
+
+    <div class="screen" id="screen3">
+      <div class="heart">💘</div>
+      <h1>Eu me pego pensando em você o tempo todo. Você é incrível, Nicole.</h1>
+      <button class="btn" onclick="nextScreen(4)">Mais 💕</button>
+    </div>
+
+    <div class="screen" id="screen4">
+      <div class="heart">💕</div>
+      <h1>Nicole, quer namorar comigo?</h1>
+      <button class="btn" onclick="responder('Sim')">Sim</button>
+      <button class="btn" onclick="responder('Claro que sim!')">Claro que sim!</button>
+      <div id="resposta" class="response"></div>
+    </div>
+  </div>
+
+  <script>
+    function nextScreen(number) {
+      const screens = document.querySelectorAll('.screen');
+      screens.forEach(s => s.classList.remove('active'));
+      document.getElementById(`screen${number}`).classList.add('active');
+    }
+
+    function responder(mensagem) {
+      const resposta = document.getElementById("resposta");
+      resposta.textContent = "Awwwn, eu sabia! 💫 " + mensagem;
+      resposta.style.display = "block";
+    }
+
+    function criarCorações() {
+      const container = document.getElementById("heart-container");
+      for (let i = 0; i < 20; i++) {
+        const heart = document.createElement("div");
+        heart.classList.add("heart-float");
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (6 + Math.random() * 5) + "s";
+        container.appendChild(heart);
+      }
+    }
+
+    criarCorações();
+  </script>
+</body>
+</html>
